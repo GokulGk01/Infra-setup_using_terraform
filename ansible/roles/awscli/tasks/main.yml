@@ -1,0 +1,24 @@
+---
+ - name: Create config directory
+   file:
+     path: "/root/.aws"
+     state: directory
+
+ - name: Create config file
+   template:
+     src: "aws_config.j2"
+     dest: "/root/.aws/credentials"
+     mode: "0600"
+
+ - name: Set permissions for AWS credentials file
+   file:
+     path: "/root/.aws/credentials"
+     mode: "0600"
+     
+ - name: Get mediaconvert endpoint
+   shell: aws mediaconvert describe-endpoints --query 'Endpoints[0].Url' --output text
+   register: mediaconvert_output
+
+ - name: Set Ansible variable
+   set_fact:
+     aws_media_convert_url: "{{ mediaconvert_output.stdout }}"

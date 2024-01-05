@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+   studioapi:
+        build: /var/www/{{project_name}}/studioapi
+        restart: always
+        container_name: studioapi
+        network_mode: {{ docker_network_name }}
+        image: studio-api
+        volumes:
+          - ../env:/var/www/laravel/.env

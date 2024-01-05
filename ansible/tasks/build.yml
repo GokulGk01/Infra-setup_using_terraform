@@ -1,0 +1,21 @@
+---
+- name: Init build
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0775
+  with_items:
+    - { src: "../files/initrun.sh", dest: "/opt/composefiles/initrun.sh"}
+    - { src: "../files/dbinit.sh", dest: "/opt/composefiles/dbinit.sh"}
+    - { src: "../files/run.sh", dest: "/opt/composefiles/run.sh"}
+    - { src: "../files/mysql.sql", dest: "/opt/composefiles/mysql.sql"}
+
+#- name: Import MySQL Dump Data
+#  community.mysql.mysql_db:
+#    login_user: "{{ mysql_user }}"
+#    login_password: "{{ mysql_user_passwd }}"
+#    login_host: "{{ db_private_ip }}"
+#    login_port: "{{ mysql_port | default(3306) }}"
+#    name: "{{ mysql_database }}"
+#    state: import
+#    target: /opt/composefiles/mysql.sql

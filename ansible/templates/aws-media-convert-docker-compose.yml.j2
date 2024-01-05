@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    aws-media-convert:
+        build: /var/www/{{project_name}}/media-convert
+        restart: always
+        container_name: mediaconvert
+        network_mode: {{ docker_network_name }}
+        image: aws-media-convert-api
+        volumes:
+          - ../env:/usr/src/app/.env

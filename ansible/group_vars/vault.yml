@@ -1,0 +1,7 @@
+vault_cassandra_user_passwd: cassandra
+vault_kafka_password: root123
+vault_mongodb_root_passwd: root123
+vault_mongodb_user_passwd: root123
+vault_mysql_root_passwd: root123
+vault_mysql_user_passwd: user123
+vault_redis_requirepass: "redis123"

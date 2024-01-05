@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    payment-api:
+        build: /var/www/{{project_name}}/payment-api
+        restart: always
+        container_name: payment
+        network_mode: {{ docker_network_name }}
+        image: payment-api
+        volumes:
+          - ../env:/usr/src/app/.env

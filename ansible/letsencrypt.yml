@@ -1,0 +1,15 @@
+---
+- name: Build Sever
+  hosts: buildserver
+  become: true
+  
+  tasks:
+  - name: Install certbot
+    apt:
+      name:
+        - certbot
+        - python3-certbot-apache
+      state: present
+
+  - name: Obtain SSL/TLS certificates with Let's Encrypt
+    command: certbot --quiet --noninteractive --apache -d "{{ api_url_domain }}" -d "{{ studio_url_domain }}" -d "{{ frontend_url_domain }}" --agree-tos --email "{{ email_address }}"

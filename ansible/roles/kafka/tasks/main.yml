@@ -1,0 +1,89 @@
+---
+ - name: Check if java 8 already installed
+   command: java -version
+   register: java_version
+   ignore_errors: True
+
+ - debug: msg="Java not installed"
+   when: java_version is failed
+
+ - name: Install Java via apt
+   apt:
+     name: openjdk-11-jdk
+     state: present
+     update_cache: true
+   register: apt_retry
+   retries: 3
+   until: apt_retry is success
+   when: java_version is failed and ansible_os_family == 'Debian'
+
+ - name: Install Java via yum
+   yum:
+     name: java-11-openjdk-devel
+     state: present
+   when: java_version is failed and ansible_os_family == 'RedHat'
+
+ - name: Create an user
+   become: true
+   user:
+     name: kafka
+     password: "{{ kafka_password }}"
+     state: present
+
+ - name: Create a Directory /opt/kafka
+   file:
+     path: /opt/kafka
+     state: directory
+     mode: 0755
+     owner: kafka
+     group: kafka
+
+ - name: Download Kafka and Unzip
+   get_url:
+     url: "https://archive.apache.org/dist/kafka/3.3.1/{{ kafka_version }}.tgz"
+     dest: /opt/kafka/
+     validate_certs: false
+
+ - name: Unzip Kafka
+   unarchive:
+     src: /opt/kafka/{{ kafka_version }}.tgz
+     dest: /opt/kafka
+     mode: 0755
+     remote_src: true
+
+ - name: Move all the files to parent Directory
+   copy:
+     src: /opt/kafka/{{ kafka_version }}
+     dest: /home/kafka
+     remote_src: true
+     owner: kafka
+     group: kafka
+
+ - name: Copy server.properties file
+   template:
+     src: server.properties.j2
+     dest: /home/kafka/{{ kafka_version }}/config/server.properties
+     owner: kafka
+     group: kafka
+     mode: 0644
+
+ - name: Copy kafka.service and zookeeper.service files
+   template:
+     src: '{{ item.src }}'
+     dest: '{{ item.dest }}'
+   loop:
+     - { src: 'kafka.service.j2', dest: '/etc/systemd/system/kafka.service' }
+     - { src: 'zookeeper.service.j2', dest: '/etc/systemd/system/zookeeper.service' }
+
+ - name: Reload daemon service
+   systemd:
+     daemon_reload: true
+
+ - name: Start zookeeper and kafka service
+   service:
+     name: "{{ item }}"
+     state: started
+     enabled: true
+   with_items:
+     - zookeeper
+     - kafka

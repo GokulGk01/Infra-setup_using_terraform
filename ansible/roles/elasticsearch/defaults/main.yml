@@ -1,0 +1,4 @@
+elasticsearch_network_host: 0.0.0.0 #{{ hostvars['buildserver'].ansible_host }}
+elasticsearch_heap_size_min: 1g
+elasticsearch_heap_size_max: 1g
+elasticsearch_http_port: 9200

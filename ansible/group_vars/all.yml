@@ -1,0 +1,95 @@
+project_name: "gk-staging"
+ansible_user: "ubuntu"
+docker_network_name: "gkgsvplayed"
+gchat_webhook: "https://chat.googleapis.com/v1/spaces/AAAAGv1wJ1A/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=nAfdJdrWkBqXck8WgDcow1xL7AXQ-JJrJoIYogpp4dg"
+frontend_url_domain: gkfrontendtest.contus.us
+api_url_domain: gkapitesting.contus.us
+studio_url_domain: gkadmintest1.contus.us
+smtp_sender_name: gkVplayed
+cookiedomain: "contus.us"
+aws_output_format: "json"
+
+#Cassandra
+cassandra_cluster_name: "Test Cluster"
+cassandra_user_name: cassandra
+cassandra_user_passwd: "{{ vault_cassandra_user_passwd }}"
+cassandra_database: cassandradb
+#Mongodb
+mongodb_port: 27017
+mongodb_root_user: root
+mongodb_root_passwd: "{{ vault_mongodb_root_passwd }}"
+mongodb_user: user
+mongodb_user_passwd: "{{ vault_mongodb_user_passwd }}"
+mongodb_database: mongouserdb
+
+#Mysql
+mysql_port: 3306
+mysql_root_user: root
+mysql_root_passwd: "{{ vault_mysql_root_passwd }}"
+mysql_user: user
+mysql_user_passwd: "{{ vault_mysql_user_passwd }}"
+mysql_database: mysqluserdb
+
+#Redis
+redis_port: 6379
+redis_bind_interface: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}" #Ip is taken from group in inventory
+redis_requirepass: "{{ vault_redis_requirepass }}"
+
+#Kafka
+kafka_java_heap: "-Xms1G -Xmx1G" # The Java heap size (memory) allocation (xmx, xms)
+kafka_password: "{{ vault_kafka_password }}"
+
+#Elasticsearch
+elasticsearch_network_host: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}" #Ip is taken from group in inventory
+elasticsearch_heap_size_min: 1g
+elasticsearch_heap_size_max: 1g
+elasticsearch_http_port: 9200
+elasticsearch_index: vplayedes #No symbols
+
+# Let's Encrypt
+letsencrypt: true
+email_address: gokulakrishnan.a@contus.in
+
+#Bitbucket-urls
+#Admin-api
+admin_api_url: Apptha/gsvplayed-service-admin-api.git
+branch_name_admin_api: release/product-bug-fixes-may2023
+#Mediadetails-api
+mediadetails_api_url: Apptha/gsvplayed-service-mediadetails-api.git
+branch_name_mediadetails_api: release/product-bug-fixes-may2023
+#Payment-api
+payment_api_url: Apptha/gsvplayed-service-payment-api.git
+branch_name_payment_api: release/product-bug-fixes-may2023
+#Socialactivites-api
+socialactivities_api_url: Apptha/gsvplayed-service-socialactivities-api.git
+branch_name_socialactivities_api: release/product-bug-fixes-may2023
+#useractions-api
+useractions_api_url: Apptha/gsvplayed-service-useractions-api.git
+branch_name_useractions_api: release/product-bug-fixes-may2023
+#AWS-media-convert-api
+aws_media_convert_api_url: Apptha/gsvplayed-service-admin-aws-media-convert.git
+branch_name_aws_media_convert_api: master
+#Media-api
+media_api_url: Apptha/gsvplayed-service-media-api.git
+branch_name_media_api_url: release/product-bug-fixes-may2023
+#Mediaview-api
+mediaview_api_url: Apptha/gsvplayed-service-mediaview-api.git
+branch_name_mediaview_api: release/product-bug-fixes-may2023
+#Notification-service-api
+notification_service_api_url: Apptha/gsvplayed-service-notification-service-api.git
+branch_name_notification_service_api: release/product-bug-fixes-may2023
+#Search-api
+search_api_url: Apptha/gsvplayed-service-search-api.git
+branch_name_search_api: release/product-bug-fixes-may2023
+#Users-api
+users_api_url: Apptha/gsvplayed-service-users-api.git
+branch_name_users_api: release/product-bug-fixes-may2023
+#Studio-api
+studio_api_url: Apptha/gsvplayed-service-studioapi.git
+branch_name_studio_api: release/product-bug-fixes-may2023
+#frontend
+frontend_url: Apptha/gsvplayed-service-frontend.git
+branch_name_frontend_url: release/product-bug-fixes-may2023
+#Studio
+studio_url: Apptha/gsvplayed-service-studio.git
+branch_name_studio_url: release/product-bug-fixes-may2023

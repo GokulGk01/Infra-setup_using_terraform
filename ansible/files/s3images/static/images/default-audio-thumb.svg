@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="music_placeholder" data-name="music placeholder" transform="translate(-971 -1151)">
+    <rect id="Rectangle_7658" data-name="Rectangle 7658" width="200" height="200" transform="translate(971 1151)" fill="#edeeef"/>
+    <g id="queue_music-24px" transform="translate(1041 1221)">
+      <path id="Path_13734" data-name="Path 13734" d="M0,0H60V60H0Z" fill="none"/>
+      <path id="Path_13735" data-name="Path 13735" d="M33,6H3v5H33Zm0,10H3v5H33ZM3,31H23V26H3ZM38,6V26.45a7.488,7.488,0,1,0,5,7.05V11h7.5V6Z" transform="translate(4.5 8)" fill="#808191"/>
+    </g>
+  </g>
+</svg>

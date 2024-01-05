@@ -1,0 +1,91 @@
+<VirtualHost *:80>
+    ServerName   {{ frontend_url_domain }}
+    Redirect / https://{{ frontend_url_domain }}
+
+</VirtualHost>
+
+<VirtualHost *:443>
+
+    ServerName        {{ frontend_url_domain }}
+    ProxyRequests     Off
+    ProxyPreserveHost On
+    AllowEncodedSlashes NoDecode
+
+    <Proxy *>
+      Allow from all
+    </Proxy>
+
+    ProxyPass         /  http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8008/ nocanon
+    ProxyPassReverse  /  http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8008/
+    ProxyPassReverse  /  https://{{ frontend_url_domain }}/
+
+
+{% if letsencrypt %}
+{% else %}
+  SSLCertificateFile    /etc/ssl/{{ project_name }}/cert.pem
+  SSLCertificateKeyFile /etc/ssl/{{ project_name }}/priv.key
+  SSLCACertificateFile /etc/ssl/{{ project_name }}/chain.pem
+{% endif %}
+
+</VirtualHost>
+
+
+<VirtualHost *:80>
+    ServerName        {{ api_url_domain }}
+    Redirect / https://{{ api_url_domain }}
+
+</VirtualHost>
+
+<VirtualHost *:443>
+
+    ServerName        {{ api_url_domain }}
+    ProxyRequests     Off
+    ProxyPreserveHost On
+    AllowEncodedSlashes NoDecode
+
+    <Proxy *>
+      Allow from all
+    </Proxy>
+
+    ProxyPass         /  http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8000/ nocanon
+    ProxyPassReverse  /  http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8000/
+    ProxyPassReverse  /  https://{{ api_url_domain }}/
+
+
+{% if letsencrypt %}
+{% else %}
+  SSLCertificateFile    /etc/ssl/{{ project_name }}/cert.pem
+  SSLCertificateKeyFile /etc/ssl/{{ project_name }}/priv.key
+  SSLCACertificateFile /etc/ssl/{{ project_name }}/chain.pem
+{% endif %}
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName        {{ studio_url_domain }}
+    Redirect / https://{{ studio_url_domain }}
+
+</VirtualHost>
+
+<VirtualHost *:443>
+
+    ServerName        {{ studio_url_domain }}
+    ProxyRequests     Off
+    ProxyPreserveHost On
+    AllowEncodedSlashes NoDecode
+
+    <Proxy *>
+      Allow from all
+    </Proxy>
+
+    ProxyPass         /  http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8009/ nocanon
+    ProxyPassReverse  /  http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:8009/
+    ProxyPassReverse  /  https://{{ studio_url_domain }}/
+
+
+{% if letsencrypt %}
+{% else %}
+  SSLCertificateFile    /etc/ssl/{{ project_name }}/cert.pem
+  SSLCertificateKeyFile /etc/ssl/{{ project_name }}/priv.key
+  SSLCACertificateFile /etc/ssl/{{ project_name }}/chain.pem
+{% endif %}
+</VirtualHost>

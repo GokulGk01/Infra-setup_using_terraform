@@ -1,0 +1,109 @@
+---
+- name: Creates SSH directory
+  file:
+    path: /root/.ssh
+    state: directory
+
+- name: Generate SSH key
+  openssh_keypair:
+    path: "/root/.ssh/id_rsa"
+    type: rsa
+    size: 4096
+    state: present
+    force: no
+  register: ssh_keypair_output
+
+- name: Print return information from the previous task
+  debug:
+    msg: "SSH Key : {{ ssh_keypair_output.public_key }}"
+
+- name: Pause for Confirmation
+  pause:
+    prompt:  "Add the SSH Key to Bitbucket and press enter to proceed"
+    echo: no
+
+- name: Cloning admin-api services
+  git:
+    repo: "git@bitbucket.org:{{ admin_api_url }}"
+    dest: /var/www/{{project_name}}/admin-api
+    version: "{{branch_name_admin_api}}"
+
+- name: Cloning frontend services
+  git:
+    repo: "git@bitbucket.org:{{ frontend_url }}"
+    dest: /var/www/{{project_name}}/frontend
+    version: "{{branch_name_frontend_url}}"
+    force: true
+
+- name: Cloning aws-media-convert services
+  git:
+    repo: "git@bitbucket.org:{{ aws_media_convert_api_url }}"
+    dest: /var/www/{{project_name}}/media-convert
+    version: "{{branch_name_aws_media_convert_api}}"
+
+- name: Cloning media-api services
+  git:
+    repo: "git@bitbucket.org:{{ media_api_url }}"
+    dest: /var/www/{{project_name}}/media-api
+    version: "{{branch_name_media_api_url}}"
+
+- name: Cloning mediadetails-api services
+  git:
+    repo: "git@bitbucket.org:{{ mediadetails_api_url }}"
+    dest: /var/www/{{project_name}}/mediadetails-api
+    version: "{{branch_name_mediadetails_api}}"
+
+- name: Cloning mediaview-api services
+  git:
+    repo: "git@bitbucket.org:{{ mediaview_api_url }}"
+    dest: /var/www/{{project_name}}/mediaview-api
+    version: "{{branch_name_mediaview_api}}"
+
+- name: Cloning notification-api services
+  git:
+    repo: "git@bitbucket.org:{{ notification_service_api_url }}"
+    dest: /var/www/{{project_name}}/notification-api
+    version: "{{branch_name_notification_service_api}}"
+
+- name: Cloning payment-api services
+  git:
+    repo: "git@bitbucket.org:{{ payment_api_url }}"
+    dest: /var/www/{{project_name}}/payment-api
+    version: "{{branch_name_payment_api}}"
+
+- name: Cloning search-api services
+  git:
+    repo: "git@bitbucket.org:{{ search_api_url }}"
+    dest: /var/www/{{project_name}}/search-api
+    version: "{{branch_name_search_api}}"
+
+- name: Cloning socialactivities-api services
+  git:
+    repo: "git@bitbucket.org:{{ socialactivities_api_url }}"
+    dest: /var/www/{{project_name}}/shocialactivities-api
+    version: "{{branch_name_socialactivities_api}}"
+
+- name: Cloning studio-api services
+  git:
+    repo: "git@bitbucket.org:{{ studio_api_url }}"
+    dest: /var/www/{{project_name}}/studioapi
+    version: "{{branch_name_studio_api}}"
+
+- name: Cloning studio services
+  git:
+    repo: "git@bitbucket.org:{{ studio_url }}"
+    dest: /var/www/{{project_name}}/studio
+    version: "{{branch_name_studio_url}}"
+    force: true
+
+- name: Cloning useractions-api services
+  git:
+    repo: "git@bitbucket.org:{{ useractions_api_url }}"
+    dest: /var/www/{{project_name}}/useractions-api
+    version: "{{ branch_name_useractions_api}}"
+
+- name: Cloning users-api services
+  git:
+    repo: "git@bitbucket.org:{{ users_api_url }}"
+    dest: /var/www/{{project_name}}/users-api
+    version: "{{branch_name_users_api}}"

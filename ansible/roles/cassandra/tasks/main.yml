@@ -1,0 +1,45 @@
+---
+- name: create directories
+  ansible.builtin.file:
+    path: /opt/composefiles/cassandra
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0775
+
+- name: copy the cassandra docker-compose file
+  ansible.builtin.template:
+    dest: /opt/composefiles/cassandra/docker-compose.yml
+    src: cassandra-docker-compose.yml.j2
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0775
+
+- name: Create a docker network - {{ docker_network_name }}
+  docker_network:
+    name: "{{ docker_network_name }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Get info on containers
+  community.docker.docker_container_info:
+    name: cassandra
+  register: cassandra_container
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Check if cassandra container exists
+  ansible.builtin.debug:
+    msg: "The container {{ 'exists' if cassandra_container.exists else 'does not exist' }}"
+
+- name: Start cassandra
+  community.docker.docker_compose:
+    project_src: /opt/composefiles/cassandra
+    files:
+      - docker-compose.yml
+  when: not cassandra_container.exists
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  register: docker_retry
+  retries: 3
+  until: docker_retry is success

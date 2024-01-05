@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    admin-api:
+        build: /var/www/{{project_name}}/admin-api
+        restart: unless-stopped
+        container_name: admin
+        network_mode: {{ docker_network_name }}
+        image: admin-api
+        volumes:
+          - ../env:/usr/src/app/.env

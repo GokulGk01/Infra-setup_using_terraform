@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    search-api:
+        build: /var/www/{{project_name}}/search-api
+        restart: always
+        container_name: search
+        network_mode: {{ docker_network_name }}
+        image: search-api
+        volumes:
+          - ../env:/usr/src/app/.env

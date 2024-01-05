@@ -1,0 +1,58 @@
+---
+- name: create directories
+  ansible.builtin.file:
+    path: /opt/composefiles/kong
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0775
+
+- name: copy the kong docker-compose j2 file
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0775
+  loop:
+    - { src: 'kong-docker-compose.yml.j2', dest: '/opt/composefiles/kong/docker-compose.yml' }
+    - { src: 'kong-config.yaml.j2', dest: '/opt/composefiles/kong/kong-config.yaml' }
+
+- name: Create a docker network - {{ docker_network_name }}
+  docker_network:
+    name: "{{ docker_network_name }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Get info on containers
+  community.docker.docker_container_info:
+    name: kong
+  register: kong_container
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Check if kong container exists
+  ansible.builtin.debug:
+    msg: "The container {{ 'exists' if kong_container.exists else 'does not exist' }}"
+
+- name: Start kong
+  community.docker.docker_compose:
+    project_src: /opt/composefiles/kong
+    files:
+      - docker-compose.yml
+  when: not kong_container.exists
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  register: docker_retry
+  retries: 3
+  until: docker_retry is success
+
+- name: Wait for port 8001 to become open
+  ansible.builtin.wait_for:
+    port: 8001
+    delay: 10
+
+- name: Import kong config via deck
+  command: docker run -i --network {{ docker_network_name }} -v /opt/composefiles/kong:/deck kong/deck --kong-addr http://kong:8001 -s /deck/kong-config.yaml sync
+  register: deck
+  changed_when: false

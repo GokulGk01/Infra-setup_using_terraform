@@ -1,0 +1,8 @@
+- name: Copy S3 images to server
+  copy:
+    src: ../files/s3images
+    dest: "/home/{{ ansible_user }}/"
+
+- name: Copy folder from remote to S3
+  command: aws s3 cp /home/{{ ansible_user }}/s3images/ s3://"{{ aws_s3_bucket }}"/ --recursive
+  register: s3migrate

@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    shocialactivities-api:
+        build: /var/www/{{project_name}}/shocialactivities-api
+        restart: always
+        container_name: shocialactivities
+        network_mode: {{ docker_network_name }}
+        image: shocialactivities-api
+        volumes:
+          - ../env:/usr/src/app/.env

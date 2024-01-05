@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    mediaview-api:
+        build: /var/www/{{project_name}}/mediaview-api
+        restart: always
+        container_name: mediaview
+        network_mode: {{ docker_network_name }}
+        image: mediaview-api
+        volumes:
+          - ../env:/usr/src/app/.env

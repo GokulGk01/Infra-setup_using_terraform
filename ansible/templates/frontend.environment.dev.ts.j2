@@ -1,0 +1,98 @@
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+
+export const environment = {
+  production: false,
+  apiUrl: 'https://{{ api_url_domain }}/',
+  studioApiUrl: 'studios/api/v1/',
+  searchApiUrl: 'search/api/v1/',
+  mediaViewsUrl: 'mediaview/api/v1/',
+  mediaDetailsUrl: 'mediadetails/api/v1/',
+  paymentUrl: 'payment/api/v1/transfer',
+  paymentUrlNew: 'payment/api/v1/',
+  userActionsApiUrl: 'useractions/api/v1/',
+  usersApiUrl: 'users/api/v1/',
+  shocialActivitiesApiUrl: 'shocialactivities/api/v1/',
+  bucketUrl: 'https://{{ aws_s3_bucket }}.s3.{{ aws_region }}.amazonaws.com/',
+  bucketImageUrl: 'https://{{ aws_s3_bucket }}.s3.{{ aws_region }}.amazonaws.com/',
+  bucketVideoUrl: 'https://{{ aws_s3_bucket }}.s3.{{ aws_region }}.amazonaws.com/',
+  akamaiImageUrl: 'https://{{ aws_s3_bucket }}.s3.{{ aws_region }}.amazonaws.com/',
+  GoogleOAuthClientId: '268190222189-4qh50k5v2v2tmh9kth30rukev5812r64.apps.googleusercontent.com',
+  dynamicLinkingApi: 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=',
+  FacebookAppId: '1600492580127527',
+  encryption_key: 'vplayed@contus',
+  playStoreFingerPrint :'CA:82:C8:3F:A8:F3:50:1F:46:FD:DA:01:FD:C6:53:40:E4:22:49:19:54:DE:D2:F1:8B:B5:67:1D:86:26:CC:05',
+  switchDeepLinkng : 'https://vplayed.page.link/',
+  dynamicLinkingDomain: 'https://vplayed.page.link/?link=',
+  countdown_seconds: 61,
+  COOKIE_ID: 'vplayed_DEV_SID',
+  COOKIE_EXPIRY_DATE: 200,
+  studioURL: 'https://{{ studio_url_domain }}/',
+  cookieDomain: '{{ cookiedomain }}',
+  cookiesecure: false,
+  deepLinking: 'https://vplayed.page.link/app',
+  razorpayKey: 'rzp_test_f7xdnoAdDXlhVv',
+  razorPayImage: 'https://i.imgur.com/n5tjHFD.png',
+  defaultLanguage:{
+    name: 'English',
+    code: 'en'
+  },
+  firebaseConfig : {
+    apiKey: "AIzaSyBkLHM1N8hZZVIlLRray_6fRLqbyn_E8sI",
+    authDomain: "gsvplayed-567d5.firebaseapp.com",
+    projectId: "gsvplayed-567d5",
+    storageBucket: "gsvplayed-567d5.appspot.com",
+    messagingSenderId: "1174006473",
+    appId: "1:1174006473:web:c662d35a7964d173e43b18",
+    measurementId: "G-G3MSZS3X7B"
+  },
+
+
+  imageDimensions: [
+    { value: 'image/png' },
+    { value: 'image/jpeg' },
+    { value: 'image/jpg' }
+  ],
+  VplayedmetaTitle: 'Vplayed - First Day First Show | Pay Per View OTT Platform',
+  // tslint:disable-next-line: max-line-length
+  metaDesc: 'GudSho is a Pay-Per-View OTT platform that helps filmmakers, distributors &amp; production houses to release films across the world. Upload your movie! Set your price! Start selling instantly!',
+  metaImg: 'https://{{ cloudfront_url }}/static/images/default-thumb.svg',
+  metaWhatsapp: 'https://{{ cloudfront_url }}/static/images/whatsappshare.png',
+  metaUrl: 'https://www.vplayed.com',
+  googleProxyURL: 'https://images1-focuts-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=',
+  port: 80,
+  country_code: '91',
+  stateManagement: {
+    studio: 20,
+    sho: 50
+  },
+  locationDetails: 'https://api.ipdata.co/?api-key=2c7522cc8d5deb53c2c286c4a867efe9e58313d12e141b7c545b92b9',
+  nextPromoSeconds: 10,
+  geoLocationDetails: 'https://ip-api.com/json/',
+  geoLocationFields: '?fields=query,status,continent,continentCode,country,countryCode,region,regionName,city,timezone,currency,proxy,mobile',
+  ipUrl: 'https://api.ipify.org/?format=json',
+  emailValidationPattern: /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})/,
+  onesignalAppId: "698632cc-68de-45b4-b57f-c31832e53f3a",
+  notification:{
+    inApp : "vplayed-inapp-dev",
+    push : "vplayed-push-dev"
+  },
+  partner_slug: 'partner_studio',
+  socketEndpoint: 'wss://{{ api_url_domain }}',
+  sitemapURL: 'https://{{ api_url_domain }}/mediaview/api/v1/sitemap',
+  allrites_key: 'WyIyMjI1XzYwNjQ0N2VhMDVhMjYiLCIyMDIxLTAzLTMxIiwiMjAyMS0wMy0zMSJd',
+  enable_googlelogin: true,
+  enable_fblogin: true,
+  enable_push_notification: false,
+  socketTransport: 'polling'
+};
+
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+// import 'zone.js/plugins/zone-error'; // Included with Angular CLI.

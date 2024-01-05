@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  mysql:
+    container_name: mysql
+    image: bitnami/mysql:5.7.40
+    network_mode: {{ docker_network_name }}
+    ports:
+      - '{{ mysql_port }}:3306'
+    restart: unless-stopped
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - MYSQL_ROOT_USER={{ mysql_root_user }}
+      - MYSQL_ROOT_PASSWORD={{ mysql_root_passwd }}
+      - MYSQL_USER={{ mysql_user }}
+      - MYSQL_PASSWORD={{ mysql_user_passwd }}
+      - MYSQL_DATABASE={{ mysql_database }}
+    healthcheck:
+      test: ['CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+    volumes:
+      - 'mysql_data:/bitnami/mysql/data'
+
+volumes:
+  mysql_data:
+    driver: local

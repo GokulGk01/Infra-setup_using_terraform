@@ -1,0 +1,3 @@
+---
+- name: Reload AWS configuration
+  command: "aws configure list"

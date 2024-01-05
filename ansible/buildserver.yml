@@ -1,0 +1,78 @@
+---
+- name: API Sever
+  hosts: buildserver
+  become: true
+
+  pre_tasks:
+    - name: Set a hostname
+      ansible.builtin.hostname:
+        name: "{{ project_name }}-api"
+
+    - name: Update apt packages
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: true
+        cache_valid_time: 3600
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install needed tools
+      ansible.builtin.apt:
+        name:
+          - vim
+          - nano
+          - tmux
+          - mysql-client
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Update yum packages
+      ansible.builtin.yum:
+        name: python-setuptools
+        state: present
+      when: ansible_facts['os_family'] == "RedHat"
+
+  post_tasks:
+  - name: Set a hostname
+    ansible.builtin.hostname:
+      name: "{{ project_name }}-api"
+  - name: Notify on success
+    uri:
+      method: POST
+      url: "{{ gchat_webhook }}"
+      body: '{"text": "{{ project_name }} - Staging API Server provisioning has been completed "}'
+      body_format: json
+    register: result
+
+  - name: Run the init script
+    command: /opt/composefiles/run.sh
+    ignore_errors: true
+
+  vars:
+    pip_install_packages:
+      - name: pip
+        extra_args: --upgrade
+      - name: docker
+      - name: pyOpenSSL
+        extra_args: --upgrade
+      - name: docker-compose
+      - name: awscli
+        extra_args: --ignore-installed six
+      - name: PyMySQL==1.0.3
+
+    docker_install_compose: false
+    docker_users:
+      - "{{ ansible_user }}"
+
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker
+    - kong
+    - awscli
+    - apache
+    - elasticsearch
+
+  tasks:
+    - import_tasks: tasks/s3migrate.yml
+    - import_tasks: tasks/gitclone.yml
+    - import_tasks: tasks/composefiles.yml
+    - import_tasks: tasks/build.yml

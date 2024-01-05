@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    notificationservice-api:
+        build: /var/www/{{project_name}}/notification-api
+        restart: always
+        container_name: notification
+        network_mode: {{ docker_network_name }}
+        image: notificationservice-api
+        volumes:
+          - ../env:/usr/src/app/.env

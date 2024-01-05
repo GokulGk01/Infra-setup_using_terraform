@@ -1,0 +1,3 @@
+kafka_version: kafka_2.13-3.3.1
+# The Java heap size (memory) allocation (xmx, xms)
+kafka_java_heap: "-Xms1G -Xmx1G"

@@ -1,0 +1,43 @@
+---
+- name: Make composefile folders
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /opt/composefiles/admin-api
+    - /opt/composefiles/frontend
+    - /opt/composefiles/media-convert
+    - /opt/composefiles/media-api
+    - /opt/composefiles/mediadetails-api
+    - /opt/composefiles/mediaview-api
+    - /opt/composefiles/notification-api
+    - /opt/composefiles/payment-api
+    - /opt/composefiles/search-api
+    - /opt/composefiles/shocialactivities-api
+    - /opt/composefiles/studioapi
+    - /opt/composefiles/studio
+    - /opt/composefiles/useractions-api
+    - /opt/composefiles/users-api
+
+- name: Copy composefiles
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "admin-api-docker-compose.yml.j2", dest: "/opt/composefiles/admin-api/docker-compose.yml"}
+    - { src: "aws-media-convert-docker-compose.yml.j2", dest: "/opt/composefiles/media-convert/docker-compose.yml"}
+    - { src: "frontend-docker-compose.yml.j2", dest: "/opt/composefiles/frontend/docker-compose.yml"}
+    - { src: "media-api-docker-compose.yml.j2", dest: "/opt/composefiles/media-api/docker-compose.yml"}
+    - { src: "media-details-api-docker-compose.yml.j2", dest: "/opt/composefiles/mediadetails-api/docker-compose.yml"}
+    - { src: "mediaview-api-docker-compose.yml.j2", dest: "/opt/composefiles/mediaview-api/docker-compose.yml"}
+    - { src: "notificationservice-api-docker-compose.yml.j2", dest: "/opt/composefiles/notification-api/docker-compose.yml"}
+    - { src: "payment-api-docker-compose.yml.j2", dest: "/opt/composefiles/payment-api/docker-compose.yml"}
+    - { src: "search-api-docker-compose.yml.j2", dest: "/opt/composefiles/search-api/docker-compose.yml"}
+    - { src: "shocialactivities-api-docker-compose.yml.j2", dest: "/opt/composefiles/shocialactivities-api/docker-compose.yml"}
+    - { src: "studio-api-docker-compose.yml.j2", dest: "/opt/composefiles/studioapi/docker-compose.yml"}
+    - { src: "studio-docker-compose.yml.j2", dest: "/opt/composefiles/studio/docker-compose.yml"}
+    - { src: "useractions-api-docker-compose.yml.j2", dest: "/opt/composefiles/useractions-api/docker-compose.yml"}
+    - { src: "users-api-docker-compose.yml.j2", dest: "/opt/composefiles/users-api/docker-compose.yml"}
+    - { src: "env.j2", dest: "/opt/composefiles/env"}
+    - { src: "frontend.environment.dev.ts.j2", dest: "/var/www/{{ project_name }}/frontend/src/environments/environment.dev.ts"}
+    - { src: "studio.environment.dev.ts.j2", dest: "/var/www/{{ project_name }}/studio/src/environments/environment.dev.ts"}

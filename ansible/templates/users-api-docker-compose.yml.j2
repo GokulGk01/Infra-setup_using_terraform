@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+   users-api:
+        build: /var/www/{{project_name}}/users-api
+        restart: always
+        container_name: users
+        network_mode: {{ docker_network_name }}
+        image: users-api
+        volumes:
+          - ../env:/var/www/laravel/.env

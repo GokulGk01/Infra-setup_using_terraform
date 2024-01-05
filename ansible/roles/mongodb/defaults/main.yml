@@ -1,0 +1,4 @@
+mongodb_port: 27017
+mongodb_root_user: root
+mongodb_user: user
+mongodb_database: mongouserdb

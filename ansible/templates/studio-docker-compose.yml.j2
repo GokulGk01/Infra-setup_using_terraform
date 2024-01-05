@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    studio:
+        build: /var/www/{{project_name}}/studio
+        restart: always
+        network_mode: {{ docker_network_name }}
+        ports:
+            - '8009:80'
+        container_name: studio
+        image: studio

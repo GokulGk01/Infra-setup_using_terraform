@@ -1,0 +1,45 @@
+---
+- name: create directories
+  ansible.builtin.file:
+    path: /opt/composefiles/mongodb
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0775
+
+- name: copy the mongodb docker-compose j2 file
+  ansible.builtin.template:
+    dest: /opt/composefiles/mongodb/docker-compose.yml
+    src: mongodb-docker-compose.yml.j2
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0775
+
+- name: Create a docker network - {{ docker_network_name }}
+  docker_network:
+    name: "{{ docker_network_name }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Get info on containers
+  community.docker.docker_container_info:
+    name: mongodb
+  register: mongodb_container
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Check if mongodb container exists
+  ansible.builtin.debug:
+    msg: "The container {{ 'exists' if mongodb_container.exists else 'does not exist' }}"
+
+- name: Start mongodb
+  community.docker.docker_compose:
+    project_src: /opt/composefiles/mongodb
+    files:
+      - docker-compose.yml
+  when: not mongodb_container.exists
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  register: docker_retry
+  retries: 3
+  until: docker_retry is success

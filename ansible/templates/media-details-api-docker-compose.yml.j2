@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+    mediadetails-api:
+        build: /var/www/{{project_name}}/mediadetails-api
+        restart: always
+        container_name: mediadetails
+        network_mode: {{ docker_network_name }}
+        image: mediadetails-api
+        volumes:
+          - ../env:/usr/src/app/.env

@@ -1,0 +1,14 @@
+[Unit]
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=simple
+User=kafka
+Environment="KAFKA_HEAP_OPTS={{ kafka_java_heap }}"
+ExecStart=/bin/sh -c '/home/kafka/{{ kafka_version }}/bin/kafka-server-start.sh /home/kafka/{{ kafka_version }}/config/server.properties > /home/kafka/{{ kafka_version }}/kafka.log 2>&1'
+ExecStop=/home/kafka/{{ kafka_version }}/bin/kafka-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
